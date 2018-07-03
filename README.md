@@ -1,11 +1,11 @@
-# Sapphire Container
+# emerald-js Container
 
 A badly done DI container
 
 # Usage
 
 ```js
-const {Container, add, factory} = require("@crypto-sapphire/container");
+const {Container, add, factory} = require("@emerald-js/container");
 const c = new Container();
 
 c.configure({

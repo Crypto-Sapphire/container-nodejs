@@ -12,5 +12,5 @@ do
     output="$(sed 's/\.coffee$/\.js/' <<< "${input}")"
 
     echo -e "${yellow}>${clear} ${green}${input}${clear} to ${green}${output}${clear}";
-    coffee -tMo "${output}" "${input}"
+    coffee -to "${output}" "${input}"
 done
