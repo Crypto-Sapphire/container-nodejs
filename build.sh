@@ -9,7 +9,7 @@ test -d lib || mkdir lib
 
 for input in index.coffee src{/**,}/*.coffee
 do
-    output="$(sed 's/src/lib/;s/\.coffee$/\.js/' <<< "${input}")"
+    output="$(sed 's/\.coffee$/\.js/' <<< "${input}")"
 
     echo -e "${yellow}>${clear} ${green}${input}${clear} to ${green}${output}${clear}";
     coffee -tMo "${output}" "${input}"
