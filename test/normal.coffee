@@ -55,6 +55,12 @@ test 'test normal usage', ->
 	expect c.get 'coins.managed'
 		.toEqual ['bch']
 
+	expect c.g.coinsManaged
+		.toEqual ['bch']
+
+	expect c.g['coins.managed']
+		.toEqual ['bch']
+
 
 test 'factory', ->
 	c = new Container

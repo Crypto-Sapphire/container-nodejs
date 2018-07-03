@@ -69,6 +69,17 @@ Add items to container by name, accepts modifiers
 
 Retrieve item from Container, args is also given to the factory function if applies
 
+### `.g`
+
+An object on which you can receive all items by a getter e.g.
+
+```js
+c.define('hello-world', 'yes')
+
+c.g.helloWorld // => 'yes'
+c.g['hello-world'] // => 'yes
+```
+
 ## Modifiers
 
 ### `get(name, ...args)`

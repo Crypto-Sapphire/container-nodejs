@@ -11,12 +11,10 @@ export default class Container
 	g: {}
 
 	defineGetterProperty: (alias, name)->
-		if alias of this.g
-			throw new Error("alias '#{alias}' already exists in container")
-
-		Object.defineProperty this.g, alias,
-			get: =>
-				@get name
+		if alias not of this.g
+			Object.defineProperty this.g, alias,
+				get: =>
+					@get name
 
 	defineAliases: (name)->
 		camelCaseName = @toCamelCase name
@@ -35,10 +33,12 @@ export default class Container
 	define: (name, value) ->
 		if value instanceof Predefinition
 			@definitions.set name, value.make this, name
+			@defineAliases name
 		else if typeof value == 'function'
 			@singleton name, value
 		else if Array.isArray(value)
 			@definitions.set name, (new Predefinition List, [value]).make this, name
+			@defineAliases name
 		else
 			@value name, value
 
