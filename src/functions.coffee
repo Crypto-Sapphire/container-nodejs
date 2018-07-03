@@ -15,3 +15,6 @@ export alias = (whom) ->
 
 export factory = (func) ->
 	new Predefinition Factory, [func]
+
+export value = (obj) ->
+	new Predefinition Value, [obj]

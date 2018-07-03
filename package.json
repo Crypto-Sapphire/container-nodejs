@@ -18,6 +18,7 @@
   "scripts": {
     "build": "bash ./build.sh",
     "test": "jest",
-    "prepare": "bash ./build.sh"
+    "prepare": "bash ./build.sh",
+    "postpublish": "bash ./clean-up.sh"
   }
 }

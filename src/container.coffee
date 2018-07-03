@@ -32,10 +32,15 @@ export default class Container
 			.replace /[\.\-\_]([a-z])/g, ($1, $2)-> return $2.toUpperCase()
 			.replace /\s/g, ''
 
-	define: (name, factory) ->
-		@singleton name, factory
-
-		this
+	define: (name, value) ->
+		if value instanceof Predefinition
+			@definitions.set name, value.make this, name
+		else if typeof value == 'function'
+			@singleton name, value
+		else if Array.isArray(value)
+			@definitions.set name, (new Predefinition List, [value]).make this, name
+		else
+			@value name, value
 
 	singleton: (name, factory) ->
 		@definitions.set name, new Singleton new Factory factory
@@ -80,11 +85,6 @@ export default class Container
 
 	configure: (obj) ->
 		for [key, value] in Object.entries(obj)
-			if value instanceof Predefinition
-				@definitions.set key, value.make this, key
-			else if typeof value == 'function'
-				@singleton key, value
-			else if Array.isArray(value)
-				@definitions.set key, (new Predefinition List, [value]).make this, key
-			else
-				@value key, value
+			@define key, value
+
+		this

@@ -1,4 +1,4 @@
-import {Container, add, alias} from '../index'
+import {Container, add, alias, factory, get} from '../index'
 
 test 'test normal usage', ->
 	c = new Container
@@ -54,3 +54,31 @@ test 'test normal usage', ->
 
 	expect c.get 'coins.managed'
 		.toEqual ['bch']
+
+
+test 'factory', ->
+	c = new Container
+	c.define 'test', factory (c, ...args) -> args
+
+	expect c.get 'test', 'help'
+		.toEqual ['help']
+
+	expect c.get 'test', 'yes', 'no'
+		.toEqual ['yes', 'no']
+
+test 'get', ->
+	c = new Container
+	c.define 'test', factory (c, ...args) -> args
+	c.define 'test_get', get('test', 'yes')
+
+	expect c.get 'test', 'help'
+		.toEqual ['help']
+
+	expect c.get 'test_get', 'help'
+		.toEqual ['yes']
+
+	expect c.get 'test', 'yes', 'no'
+		.toEqual ['yes', 'no']
+
+	expect c.get 'test_get'
+		.toEqual ['yes']
