@@ -1,7 +1,7 @@
 {
-  "name": "emerald",
-  "version": "0.0.1",
-  "private": true,
+  "name": "@eater/emerald",
+  "version": "0.0.2",
+  "main": "index",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build": "bash ./build.sh",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "bash ./build.sh"
   }
 }
