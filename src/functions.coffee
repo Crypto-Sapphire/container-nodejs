@@ -1,5 +1,6 @@
 import Predefinition from './predefinition'
 import Add from './definition/add'
+import Value from './definition/value'
 import Alias from './definition/alias'
 import Factory from './definition/factory'
 import Get from './definition/get'
