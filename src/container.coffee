@@ -81,7 +81,8 @@ export default class Container
 			throw new Error 'Instance not found: ' + name
 
 		def = @definitions.get name
-		def.get this, args
+
+		await def.get this, args
 
 	configure: (obj) ->
 		for [key, value] in Object.entries(obj)
