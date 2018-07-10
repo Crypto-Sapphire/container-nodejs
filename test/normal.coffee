@@ -11,65 +11,78 @@ test 'test normal usage', ->
 		'noic'
 	]
 
-	expect c.get 'test'
+	expect await c.get 'test'
 		.toBe 'help!'
 
-	expect c.get 'test_add'
+	expect await c.get 'test_add'
 		.toEqual ['get', 'noic']
 
 	c.add 'test_add', 'yes'
 
-	expect c.get 'test_add'
+	expect await c.get 'test_add'
 		.toEqual ['get', 'noic', 'yes']
 
 	c.configure test_alias: alias 'test_add'
 
-	expect c.get 'test_alias'
+	expect await c.get 'test_alias'
 		.toEqual ['get', 'noic', 'yes']
 
 	c.add 'test_add', 'no'
 
-	expect c.get 'test_alias'
+	expect await c.get 'test_alias'
 		.toEqual ['get', 'noic', 'yes', 'no']
 
-	expect c.get 'test_alias'
-		.toEqual c.get 'test_add'
+	expect await c.get 'test_alias'
+		.toEqual await c.get 'test_add'
 
 
 	c.configure
 		'coins.managed': add 'btc'
 		'coins': true
 
-	expect c.get 'coins.managed'
+	expect await c.get 'coins.managed'
 		.toEqual ['btc']
 
 	c.configure
 		'coins.managed': add 'eth'
 
-	expect c.get 'coins.managed'
+	expect await c.get 'coins.managed'
 		.toEqual ['btc', 'eth']
 
 	c.configure
 		'coins.managed': ['bch']
 
-	expect c.get 'coins.managed'
+	expect await c.get 'coins.managed'
 		.toEqual ['bch']
 
-	expect c.g.coinsManaged
+	expect await c.g.coinsManaged
 		.toEqual ['bch']
 
-	expect c.g['coins.managed']
+	expect await c.g['coins.managed']
 		.toEqual ['bch']
 
+
+test 'add', ->
+	c = new Container
+
+	c.define 'test', add 'test'
+
+	expect await c.get 'test'
+		.toEqual ['test']
+
+	c.define 'test', add 'test'
+
+	expect await c.get 'test'
+		.toEqual ['test', 'test']
 
 test 'factory', ->
 	c = new Container
 	c.define 'test', factory (c, ...args) -> args
 
-	expect c.get 'test', 'help'
+	expect await c.get 'test', 'help'
 		.toEqual ['help']
 
-	expect c.get 'test', 'yes', 'no'
+	expect await c.get 'test', 'yes', 'no'
 		.toEqual ['yes', 'no']
 
 test 'get', ->
@@ -77,14 +90,14 @@ test 'get', ->
 	c.define 'test', factory (c, ...args) -> args
 	c.define 'test_get', get('test', 'yes')
 
-	expect c.get 'test', 'help'
+	expect await c.get 'test', 'help'
 		.toEqual ['help']
 
-	expect c.get 'test_get', 'help'
+	expect await c.get 'test_get', 'help'
 		.toEqual ['yes']
 
-	expect c.get 'test', 'yes', 'no'
+	expect await c.get 'test', 'yes', 'no'
 		.toEqual ['yes', 'no']
 
-	expect c.get 'test_get'
+	expect await c.get 'test_get'
 		.toEqual ['yes']
