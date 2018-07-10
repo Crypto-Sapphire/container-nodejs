@@ -62,6 +62,18 @@ test 'test normal usage', ->
 		.toEqual ['bch']
 
 
+test 'has', ->
+	c = new Container
+
+	expect c.has 'test'
+		.toBe false
+
+	c.define 'test', 'oi'
+
+	expect c.has 'test'
+		.toBe true
+
+
 test 'add', ->
 	c = new Container
 

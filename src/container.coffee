@@ -62,6 +62,9 @@ export default class Container
 
 		this
 
+	has: (name) ->
+		@definitions.has name
+
 	add: (name, items) ->
 		if not Array.isArray(items)
 			items = [items]
