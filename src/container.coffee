@@ -7,8 +7,10 @@ import Add from './definition/add'
 import Predefinition from './predefinition'
 
 export default class Container
-	definitions: new Map
-	g: {}
+	constructor: ->
+		@g = {}
+		@definitions = new Map
+
 
 	defineGetterProperty: (alias, name)->
 		if alias not of this.g

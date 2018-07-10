@@ -75,6 +75,16 @@ test 'add', ->
 	expect await c.get 'test'
 		.toEqual ['test', 'test']
 
+	c = new Container
+
+	try
+		await c.get 'test'
+	catch e
+
+	expect e
+		.toEqual expect.anything()
+
+
 test 'factory', ->
 	c = new Container
 	c.define 'test', factory (c, ...args) -> args
