@@ -1,3 +1,4 @@
 *.coffee
-/.idea/
+.idea
+.babelrc
 build.sh

@@ -1,3 +1,20 @@
-/.idea/
-/node_modules/
+# Files
+yarn-error.log
 *.js
+
+# Package directories
+node_modules
+jspm_packages
+.idea
+.serverless
+.webpack
+
+# OS Files
+.DS_Store*
+Icon?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.directory
+*~
