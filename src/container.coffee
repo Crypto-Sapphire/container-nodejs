@@ -7,24 +7,25 @@ import Add from './definition/add'
 import Predefinition from './predefinition'
 
 export default class Container
+	@make: ->
+		container = new Container
+
+		return new Proxy container, {
+			get: (target, name) ->
+				return target[name] or target.get name
+
+			set: (target, name, value) ->
+				target.define name, value
+		}
+
 	constructor: ->
-		@g = {}
+		@aliases = {}
 		@definitions = new Map
 
-
-	defineGetterProperty: (alias, name)->
-		if alias not of this.g
-			Object.defineProperty this.g, alias,
-				get: =>
-					@get name
-
-	defineAliases: (name)->
+	defineAliases: (name) ->
 		camelCaseName = @toCamelCase name
-
-		@defineGetterProperty name, name
-
 		if camelCaseName != name
-			@defineGetterProperty camelCaseName, name
+			@aliases[camelCaseName] = name
 
 	toCamelCase: (str) ->
 		str
@@ -46,7 +47,7 @@ export default class Container
 
 	singleton: (name, factory) ->
 		@definitions.set name, new Singleton new Factory factory
-		@defineAliases(name)
+		@defineAliases name
 
 		this
 
@@ -73,6 +74,7 @@ export default class Container
 
 		if not @definitions.has name
 			@definitions.set name, new List items
+			@defineAliases name
 		else
 			@definitions.set name, Add.make this, @definitions.get(name), items
 
@@ -81,13 +83,16 @@ export default class Container
 	make: (...args) ->
 		@get(args...)
 
-	get: (name, ...args)->
+	get: (name, ...args) ->
+		if (alias = @aliases[name])
+			name = alias
+
 		if not @definitions.has name
 			throw new Error 'Instance not found: ' + name
 
 		def = @definitions.get name
 
-		await def.get this, args
+		return def.get this, args
 
 	configure: (obj) ->
 		for [key, value] in Object.entries(obj)
