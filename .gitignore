@@ -8,7 +8,6 @@ jspm_packages
 .idea
 .serverless
 .webpack
-.lib
 
 # OS Files
 .DS_Store*
