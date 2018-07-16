@@ -6,3 +6,5 @@ export {default as List} from './src/definition/list'
 export {default as Singleton} from './src/definition/singleton'
 export {default as Value} from './src/definition/value'
 export * from './src/functions'
+
+export default Container
