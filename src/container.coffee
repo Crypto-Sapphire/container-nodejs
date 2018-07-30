@@ -66,9 +66,6 @@ export default class Container
 		@get(args...)
 
 	get: (name, ...args) ->
-		if (alias = @aliases[name])
-			name = alias
-
 		if not @definitions.has name
 			throw new Error 'Instance not found: ' + name
 
