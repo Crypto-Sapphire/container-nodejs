@@ -12,54 +12,37 @@ export default class Container
 
 		return new Proxy container, {
 			get: (target, name) ->
-				return target[name] or target.get name
+				return target.get name
 
 			set: (target, name, value) ->
 				target.define name, value
 		}
 
 	constructor: ->
-		@aliases = {}
 		@definitions = new Map
-
-	defineAliases: (name) ->
-		camelCaseName = @toCamelCase name
-		if camelCaseName != name
-			@aliases[camelCaseName] = name
-
-	toCamelCase: (str) ->
-		str
-			.replace /\s(.)/g, ($1)-> return $1.toUpperCase()
-			.replace /[\.\-\_]([a-z])/g, ($1, $2)-> return $2.toUpperCase()
-			.replace /\s/g, ''
 
 	define: (name, value) ->
 		if value instanceof Predefinition
 			@definitions.set name, value.make this, name
-			@defineAliases name
 		else if typeof value == 'function'
 			@singleton name, value
 		else if Array.isArray(value)
 			@definitions.set name, (new Predefinition List, [value]).make this, name
-			@defineAliases name
 		else
 			@value name, value
 
 	singleton: (name, factory) ->
 		@definitions.set name, new Singleton new Factory factory
-		@defineAliases name
 
 		this
 
 	value: (name, value) ->
 		@definitions.set name, new Value value
-		@defineAliases name
 
 		this
 
 	factory: (name, factory) ->
 		@definitions.set name, new Factory factory
-		@defineAliases name
 
 		this
 
@@ -74,7 +57,6 @@ export default class Container
 
 		if not @definitions.has name
 			@definitions.set name, new List items
-			@defineAliases name
 		else
 			@definitions.set name, Add.make this, @definitions.get(name), items
 
