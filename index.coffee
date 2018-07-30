@@ -1,10 +1,22 @@
-export {default as Container} from './src/container'
-export {default as Add} from './src/definition/add'
-export {default as Alias} from './src/definition/alias'
-export {default as Factory} from './src/definition/factory'
-export {default as List} from './src/definition/list'
-export {default as Singleton} from './src/definition/singleton'
-export {default as Value} from './src/definition/value'
+
+import Container 	from './src/container'
+import Add 			from './src/definition/add'
+import Alias 		from './src/definition/alias'
+import Factory 		from './src/definition/factory'
+import List 		from './src/definition/list'
+import Singleton 	from './src/definition/singleton'
+import Value 		from './src/definition/value'
+
 export * from './src/functions'
 
 export default Container
+
+export {
+	Container
+	Add
+	Alias
+	Factory
+	List
+	Singleton
+	Value
+}

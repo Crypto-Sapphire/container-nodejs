@@ -7,12 +7,12 @@ import Add from './definition/add'
 import Predefinition from './predefinition'
 
 export default class Container
-	@make: ->
+	@proxy: ->
 		container = new Container
 
 		return new Proxy container, {
 			get: (target, name) ->
-				return target.get name
+				return target[name] or target.get name
 
 			set: (target, name, value) ->
 				target.define name, value

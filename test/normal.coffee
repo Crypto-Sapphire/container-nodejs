@@ -1,7 +1,7 @@
 import { Container, add, alias, factory, get } from '../index'
 
 test 'test normal usage', ->
-	c = Container.make()
+	c = new Container
 
 	c.define 'test', ->
 		'help!'
@@ -53,12 +53,6 @@ test 'test normal usage', ->
 		'coins.managed': ['bch']
 
 	expect c.get 'coins.managed'
-		.toEqual ['bch']
-
-	expect c.coinsManaged
-		.toEqual ['bch']
-
-	expect c['coins.managed']
 		.toEqual ['bch']
 
 
@@ -123,3 +117,13 @@ test 'get', ->
 
 	expect c.get 'test_get'
 		.toEqual ['yes']
+
+test 'proxy', ->
+	c = Container.proxy()
+	c.foo = 'bar'
+
+	expect c.foo
+		.toEqual 'bar'
+
+	expect c['foo']
+		.toEqual 'bar'
